@@ -1,9 +1,6 @@
-import json
 from api.users.models import User
 from api.business.models import Business
 from api.product.models import Product
-from api.sale.models import Sale, SaleList
-from api.stock.models import Stock, StockList
 from api.tests.test_utils import (
     create_business_products,
     create_new_business,
@@ -17,13 +14,12 @@ def test_business_hello(app, client):
     response = client.get("/business/hello")
     assert response.status_code == 200
 
-# TODO: Fix issue with test
 def test_business_create_new(app, client):
     login = login_user(app, client)
 
     response = client.post(
         "/business",
-        json={"name": "Kako Inc"},
+        json={"name": "Kako Inc", "description":"Very cool business"},
         headers={"Authorization": f"Bearer {login['token']}"},
     )
 
@@ -63,7 +59,7 @@ def test_business_get_by_id(app, client):
     )
 
     assert response.status_code == 200
-    assert response.json == {"description": None, "name": "Kako Inc"}
+    assert response.json == {"description": "Very cool business", "name": "Kako Inc"}
 
 
 def test_business_update_by_id(app, client):
@@ -304,8 +300,8 @@ def test_business_get_all_customers(app, client):
     )
 
     assert response.status_code == 200
-    assert response.json[0]["customer_name"] == "Kojo Boateng"
-    assert response.json[0]["customer_contact"] == "0543217725"
+    assert response.json["business_customers"][0]["customer_name"] == "Kojo Boateng"
+    assert response.json["business_customers"][0]["customer_contact"] == "0543217725"
 
 def test_business_get_report(app, client):
     login = login_user(app, client)
@@ -363,7 +359,7 @@ def test_business_get_dashboard_info(app, client):
         f"business/{business_id}/dashboard_info",
         headers={"Authorization": f"Bearer {login['token']}"}
     )
-
+    print(response.json)
     assert response.status_code == 200
-    assert "top_selling_product" in response.json
-    assert "product_low_on_stock" in response.json
+    assert response.json["product_low_on_stock"] == {'Product 0': {'total_items_remaining': '0', 'total_sales_quantity': 0, 'total_stock_quantity': 0}, 'Product 1': {'total_items_remaining': '2', 'total_sales_quantity': 18, 'total_stock_quantity': 20}}
+    assert response.json["top_selling_products"] == {'Product 0': {'total_sales_money': 0, 'total_sales_quantity': '0'}, 'Product 1': {'total_sales_money': 18, 'total_sales_quantity': '"48.00"'}}

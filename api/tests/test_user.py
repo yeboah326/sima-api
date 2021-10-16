@@ -1,8 +1,4 @@
-import json
-from api import db
 from api.users.models import User
-from api.business.models import Business
-from api.product.models import Product
 from api.tests.test_utils import drop_all_table_data
 
 

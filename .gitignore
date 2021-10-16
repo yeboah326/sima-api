@@ -2,3 +2,5 @@
 .flaskenv
 env/
 __pycache__/
+.vscode/
+env.sh

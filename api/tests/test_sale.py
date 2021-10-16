@@ -1,14 +1,10 @@
-import json
-from api.users.models import User
 from api.business.models import Business
 from api.product.models import Product
 from api.sale.models import Sale, SaleList
-from api.stock.models import Stock, StockList
 from api.tests.test_utils import (
     create_business_products,
     create_new_business,
     create_business_salelist,
-    create_business_stocklist,
     login_user,
 )
 

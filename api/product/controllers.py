@@ -199,7 +199,7 @@ def product_get_report(current_user, product_id):
         "product_name": f"{product.name}",
         "product_sales": str(sales["total_sales"]),
         "product_stock": str(stock["total_stock"]),
-        "product_profit_loss": str(sales["total_sales"]),
+        "product_profit_loss": str(sales["total_sales"]-stock["total_stock"]),
         "product_total_sold": str(sales["total_quantity"]),
         "product_total_bought": str(stock["total_quantity"]),
         "product_total_remaining": str(stock["total_quantity"] - sales["total_quantity"])

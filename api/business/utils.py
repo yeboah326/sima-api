@@ -38,7 +38,7 @@ def report_compute_sales_for_product(product_id):
     total_sales = 0
     total_quantity = 0
     for sale in product_sales:
-        total_sales += sale.selling_price
+        total_sales += sale.selling_price * sale.quantity
         total_quantity += sale.quantity
     return {"total_sales": total_sales, "total_quantity": total_quantity}
 
@@ -48,7 +48,7 @@ def report_compute_stocks_for_product(product_id):
     total_stock = 0
     total_quantity = 0
     for stock in product_stock:
-        total_stock += stock.buying_price
+        total_stock += stock.buying_price * stock.quantity
         total_quantity += stock.quantity
     return {"total_stock": total_stock, "total_quantity": total_quantity}
 
@@ -110,8 +110,8 @@ def get_top_selling_products(business_id):
     for product in business_products:
         sales_info = report_compute_sales_for_product(product_id=product.id)
         business_products_info[f"{product.name}"] = {
-            "total_sales_quantity": dumps(sales_info["total_sales"]),
-            "total_sales_money": sales_info["total_quantity"]
+            "total_sales_quantity": dumps(sales_info["total_quantity"]),
+            "total_sales_money": dumps(sales_info["total_sales"])
         }
     business_products_info = dict(business_products_info.items(),key=lambda x:x[1]["total_sales_money"],reverse=True)
     del business_products_info["key"]

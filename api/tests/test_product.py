@@ -225,7 +225,7 @@ def test_product_get_report(app, client):
     product_id = new_product.id
 
     # Create stocks and a stock list for the created product
-    create_business_salelist(client, login["token"], product_id)
+    create_business_stocklist(client, login["token"], product_id)
 
     # Create sales and a sale list for the product created
     create_business_salelist(client, login["token"], product_id)
@@ -234,7 +234,12 @@ def test_product_get_report(app, client):
         f"product/{product_id}/report",
         headers={"Authorization": f"Bearer {login['token']}"},
     )
-    print(response.json)
+
     assert response.status_code == 200
-    assert "product_name" in response.json
-    assert "product_sales" in response.json
+    assert response.json["product_name"] == "Product 1"
+    assert response.json["product_profit_loss"] == "-10.00"
+    assert response.json["product_sales"] == "290.00"
+    assert response.json["product_stock"] == "300.00"
+    assert response.json["product_total_bought"] == "20"
+    assert response.json["product_total_remaining"] == "2"
+    assert response.json["product_total_sold"] == "18"

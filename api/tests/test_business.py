@@ -328,8 +328,8 @@ def test_business_get_report(app, client):
     )
 
     assert response.status_code == 200
-    assert response.json["total_sales_made"] == 480.0
-    assert response.json["total_stock_purchased"] == 600.0
+    assert response.json["total_sales_made"] == 2900.0
+    assert response.json["total_stock_purchased"] == 3000.0
     assert response.json["total_products_sold"] == 180
     assert response.json["total_products_bought"] == 200
     assert response.json["total_products_remaining"] == 20
@@ -361,5 +361,5 @@ def test_business_get_dashboard_info(app, client):
     )
     print(response.json)
     assert response.status_code == 200
-    assert response.json["product_low_on_stock"] == {'Product 0': {'total_items_remaining': '0', 'total_sales_quantity': 0, 'total_stock_quantity': 0}, 'Product 1': {'total_items_remaining': '2', 'total_sales_quantity': 18, 'total_stock_quantity': 20}}
-    assert response.json["top_selling_products"] == {'Product 0': {'total_sales_money': 0, 'total_sales_quantity': '0'}, 'Product 1': {'total_sales_money': 18, 'total_sales_quantity': '"48.00"'}}
+    assert response.json["product_low_on_stock"] == {'Product 0': {'total_items_remaining': '0', 'total_sales_quantity': "0", 'total_stock_quantity': "0"}, 'Product 1': {'total_items_remaining': '2', 'total_sales_quantity': 18, 'total_stock_quantity': 20}}
+    assert response.json["top_selling_products"] == {'Product 0': {'total_sales_money': 0, 'total_sales_quantity': '0'}, 'Product 1': {'total_sales_money': 290.00, 'total_sales_quantity': '"18"'}}
